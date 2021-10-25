@@ -65,28 +65,51 @@ double GetValue(TypeHolder t)
 }
 
 
-TypeHolder* BinarySearchInstanse(TypeHolder* beg, TypeHolder* end, double key)
+int BinarySearch(TypeHolder a[], TypeHolder item, int low, int high)
 {
-	if (end <= beg)
-		return (key >= GetValue(beg[0]) ? beg + 1 : beg);
+    if (high <= low)
+        return (GetValue(item) > GetValue(a[low])) ?
+                (low + 1) : low;
 
-	TypeHolder* mid = beg + (end - beg) / 2 ;
-	if (key == GetValue(mid[0]))
-		return mid + 1;
-	if (key > GetValue(mid[0]))
-		return BinarySearchInstanse(mid + 1, end, key);
-	// if key < GetValue(*mid)
-	return BinarySearchInstanse(beg, mid - 1, key);
+    int mid = (low + high) / 2;
+
+    if (GetValue(item) == GetValue(a[mid]))
+        return mid + 1;
+
+    if (GetValue(item) > GetValue(a[mid]))
+        return BinarySearch(a, item, mid + 1, high);
+    return BinarySearch(a, item, low, mid - 1);
 }
 
-void	InsertionSort(TypeHolder* beg, TypeHolder* end)
+void InsertionSort(TypeHolder a[], int n)
 {
-	TypeHolder* cur = beg;
-	while (cur <= end)
+    int i, loc, j;
+    TypeHolder selected;
+
+    for (i = 1; i < n; ++i)
+    {
+        j = i - 1;
+        selected = a[i];
+
+        // find location where selected should be inseretd
+        loc = BinarySearch(a, selected, 0, j);
+
+        // Move all elements after location to create space
+        while (j >= loc)
+        {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = selected;
+    }
+}
+
+void Revert(TypeHolder a[], int n)
+{
+	TypeHolder _tmp;
+	for (int i = 0; i < n / 2;i ++)
 	{
-		TypeHolder* n_pos = BinarySearchInstanse(beg, cur, GetValue(cur[0]));
-		Swap(n_pos[0], cur[0]);
-		cur++;
+		Swap(a[i], a[n - i - 1]);
 	}
 }
 
@@ -109,7 +132,8 @@ void	Sort	(Shape** shape_arr, int shape_count, char* types_string)
 			break;
 		}
 	}
-	InsertionSort(cont, cont + shape_count - 1);
+	InsertionSort(cont, shape_count);
+	Revert(cont, shape_count);
 	for(int i = 0; i < shape_count; i++)
 	{
 		shape_arr[i] = cont[i].S;

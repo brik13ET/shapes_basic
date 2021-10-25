@@ -69,17 +69,17 @@ void	WriteShapes	(std::ostream &s, char* shape_types, Shape** shapes_array, int 
 		{
 			case 'c' :
 			{
-				s << *((Circle*)shapes_array[i]) <<'\n';
+				s << *((Circle*)shapes_array[i]) << '\n';
 			}
 			break;
 			case 'r' :
 			{
-				s	<< *((Rectangle*)shapes_array[i]) << '\n';
+				s << *((Rectangle*)shapes_array[i]) << '\n';
 			}
 			break;
 			case 't' :
 			{
-				s	<< *((Triangle*)shapes_array[i]) << '\n';
+				s << *((Triangle*)shapes_array[i]) << '\n';
 				
 			}
 			break;
