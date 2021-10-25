@@ -109,7 +109,7 @@ void	Sort	(Shape** shape_arr, int shape_count, char* types_string)
 			break;
 		}
 	}
-	InsertionSort(cont, cont + shape_count);
+	InsertionSort(cont, cont + shape_count - 1);
 	for(int i = 0; i < shape_count; i++)
 	{
 		shape_arr[i] = cont[i].S;
